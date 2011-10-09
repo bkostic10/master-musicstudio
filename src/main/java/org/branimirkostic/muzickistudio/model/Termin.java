@@ -32,6 +32,8 @@ public class Termin implements Serializable{
     @SuppressWarnings("unused")
     @Column(name = "SATNICA", nullable = false, insertable = false, updatable = false)
     private Vreme satnica;
+    @Column(name = "IZDAT", nullable = false)
+    private boolean izdat;
     @SuppressWarnings("unused")
     @ManyToOne(optional=false)
     @JoinColumn(name="SOBA_ID", insertable = false, updatable = false)
@@ -44,12 +46,13 @@ public class Termin implements Serializable{
 	public Termin() {
     }
 	
-    public Termin(TerminSequenceNum id, TerminId pk, String datum, Vreme satnica, Soba soba,
+    public Termin(TerminSequenceNum id, TerminId pk, String datum, Vreme satnica, boolean izdat, Soba soba,
 			Korisnik korisnik) {
     	this.id = id;
 		this.pk = pk;
 		this.datum = datum;
 		this.satnica = satnica;
+                this.izdat = izdat;
 		this.soba = soba;
 		this.korisnik = korisnik;
 	}
@@ -57,16 +60,16 @@ public class Termin implements Serializable{
     
     
     public TerminSequenceNum getId() {
-		return id;
-	}
+        return id;
+    }
 
     public void setId(TerminSequenceNum id) {
         this.id = id;
     }
 
-	@Pattern(regexp="^(0[1-9]|[12][0-9]|3[01])[. /.](0[1-9]|1[012])[. /.](19|20)\\d\\d$", 
-    		message= "Morate uneti datum u odgovarajucem formatu: dd.MM.yyyy")
-	public String getDatum() {
+    @Pattern(regexp="^(0[1-9]|[12][0-9]|3[01])[. /.](0[1-9]|1[012])[. /.](19|20)\\d\\d$",
+        message= "Morate uneti datum u odgovarajucem formatu: dd.MM.yyyy")
+    public String getDatum() {
         return pk.getDatum();
     }
 
@@ -83,18 +86,26 @@ public class Termin implements Serializable{
     }
     
     public Korisnik getKorisnik() {
-		return korisnik;
-	}
+        return korisnik;
+    }
 
-	public void setKorisnik(Korisnik korisnik) {
-		this.korisnik = korisnik;
-	}
+    public void setKorisnik(Korisnik korisnik) {
+        this.korisnik = korisnik;
+    }
     public Soba getSoba() {
         return pk.getSoba();
     }
 
     public void setSoba(Soba soba) {
         pk.setSoba(soba);
+    }
+
+    public boolean isIzdat() {
+        return izdat;
+    }
+
+    public void setIzdat(boolean izdat) {
+        this.izdat = izdat;
     }
 }
 

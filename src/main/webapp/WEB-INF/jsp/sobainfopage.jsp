@@ -20,6 +20,8 @@
                     value="/site/studio/studioinfo/obrisanasoba.htm?studioId=${studioId}&sobaId=${sobaAttribute.id}" />
                 <c:url var="sobaInfoUrl"
                     value="/site/soba/sobainfo.htm?studioId=${studioId}&sobaId=${sobaAttribute.id}" />
+                <c:url var="pronadjiKorisnikaUrl"
+                    value="/site/soba/sobainfo/pronadjitermin.htm?studioId=${studioId}&sobaId=${sobaAttribute.id}" />
 
                 <div>
                     Ime sobe:
@@ -96,9 +98,64 @@
                 <div>${ponistavanjeTerminaPoruka}</div>
                 <br />
                 </c:if>
-                <p>
-                    <a href="${obrisiUrl}">Obrisi sobu</a>
-                </p>
+                
+                
+                
+                <c:if test="${daLiJeAdmin}">
+                    <p>
+                        <a href="${obrisiUrl}">Obrisi sobu</a>
+                    </p>     
+                    <h1>Pronadji korisnika:</h1>
+
+                    <form:form id="pronadjiTermineKorisnikaForma" name="pronadjiTermineKorisnikaForma"
+                        modelAttribute="korisnikAttribute" method="POST"
+                        action="${pronadjiKorisnikaUrl}">
+                        <div>${terminiKorisnika2Poruka}</div>
+                        <br />
+                        <div>
+                            Korisnicko ime: <br />
+                            <form:input name="korIme" path="korIme" />
+                            <br />
+                            <form:errors name="korIme" path="korIme" cssClass="error"/>
+                        </div>
+                        <p>
+                            <input type="submit" class="btn" value="Pronadji korisnika" />
+                        </p>
+                    </form:form>
+                    <div>${izdavanjeRacunaPoruka}</div>
+                
+                    <c:if test="${!empty terminiRacunAttribute}">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th width="150">Id</th>
+                                <th width="150">Datum</th>
+                                <th width="150">Vreme</th>
+                                <th width="150">Izdaj racun</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${terminiRacunAttribute}" var="termin">
+                                <c:url var="izdajRacunUrl"
+                                    value="/site/soba/sobainfo/izdavanjeracuna.htm?studioId=${studioId}&sobaId=${sobaAttribute.id}&terminId=${termin.id.id}" />
+                                <tr>
+                                    <td><c:out value="${termin.id.id}" />
+                                    </td>
+                                    <td><c:out value="${termin.datum}" />
+                                    </td>
+                                    <td><c:out value="${termin.satnica}" />
+                                    </td>
+                                    <td><a href="${izdajRacunUrl}">Izdaj racun</a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                    </c:if>
+                    <c:if test="${empty terminiRacunAttribute}">
+                        
+                    </c:if>
+                </c:if>
                 <p>
                     <a href="${studioInfoUrl}">Nazad</a>
                 </p>

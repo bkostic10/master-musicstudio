@@ -44,7 +44,7 @@ public class TerminService {
             Session session = sessionFactory.getCurrentSession();
             Query upit = session.createQuery("FROM Termin AS T " +
                 "LEFT JOIN FETCH T.id LEFT JOIN FETCH T.soba AS S LEFT JOIN FETCH T.korisnik AS K " +
-                "WHERE S.id = " + sobaId + " AND K.korIme = '" + korIme + "'");
+                "WHERE S.id = " + sobaId + " AND K.korIme = '" + korIme + "' AND T.izdat = "+false);
             termini = (List<Termin>) upit.list();
         } catch (HibernateException e) {
             throw new HibernateException("Greska: "+e.getMessage());
@@ -52,18 +52,18 @@ public class TerminService {
         return termini;
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Termin> vratiSveTermine() {
-        List<Termin> termini = null;
+    public void izdajRacun(Long id) {
         try {
-            logger.debug("Vracanje termina");
+            logger.debug("Izdavanje racuna");
             Session session = sessionFactory.getCurrentSession();
-            Query upit = session.createQuery("FROM Termin LEFT JOIN FETCH T.id");
-            termini = (List<Termin>) upit.list();
+            Query upit = session.createQuery("FROM Termin AS T " +
+                "LEFT JOIN FETCH T.id WHERE T.id.id = " + id);
+            Termin termin = (Termin) upit.uniqueResult();
+            termin.setIzdat(true);
+            session.update(termin);
         } catch (HibernateException e) {
             throw new HibernateException("Greska: "+e.getMessage());
         }
-        return termini;
     }
 
     public List<Termin> vratiSveTermineZaSobu(Long sobaId) {

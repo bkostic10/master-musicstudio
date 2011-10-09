@@ -70,7 +70,7 @@ public class SobaController {
             else{
                 sobaService.sacuvajSobu(studioId, soba);
                 model.addAttribute("dodavanjeSobePoruka",
-                    soba.getNaziv()+" je uspešno dodata.");
+                    soba.getNaziv()+" je uspesno dodata.");
             }
     	} catch (Exception e) {
             e.printStackTrace();
@@ -92,17 +92,25 @@ public class SobaController {
             if(soba == null){
                 return "greskapage";
             }
-            if (!validation) {
-                Termin termin = new Termin();
-                model.addAttribute("terminAttribute", termin);
-                //model.addAttribute("terminId", termin.getId().getId());
-            }
-            model.addAttribute("satnica", Vreme.class);
+            model.addAttribute("studioId", studioId);
             model.addAttribute("sobaAttribute", soba);
-            model.addAttribute("terminiAttribute",
+            if(LogovaniKorisnik.daLiJeKorisnik()){
+                if (!validation) {
+                    Termin termin = new Termin();
+                    model.addAttribute("terminAttribute", termin);
+                }
+                model.addAttribute("satnica", Vreme.class);
+                model.addAttribute("terminiAttribute",
                 terminService.vratiTerminePoSobiIKorisniku(sobaId,
                     LogovaniKorisnik.vratiLogovanogKorisnika().getUsername()));
-            model.addAttribute("studioId", studioId);
+            }
+            if(LogovaniKorisnik.daLiJeAdmin()){
+                Korisnik korisnik = null;
+                if (!validation) {
+                    korisnik = new Korisnik();
+                    model.addAttribute("korisnikAttribute", korisnik);
+                }
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,8 +120,8 @@ public class SobaController {
         model.addAttribute("daLiJeAdmin", LogovaniKorisnik.daLiJeAdmin());
         return "sobainfopage";
     }
-    
-	@RequestMapping(value = "/sobainfo.htm", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/sobainfo.htm", method = RequestMethod.POST)
     public String rezervisiTermin(@RequestParam(value="studioId", required=true) Long studioId,
         @RequestParam(value="sobaId", required=true) Long sobaId,
         @ModelAttribute("terminAttribute") @Valid Termin termin,
@@ -133,6 +141,7 @@ public class SobaController {
                 Korisnik korisnik = korisnikService.vratiKorisnikaPoKorImenu(LogovaniKorisnik.vratiLogovanogKorisnika().getUsername());
                 termin.setSoba(soba);
                 termin.setKorisnik(korisnik);
+                termin.setIzdat(false);
                 terminService.rezervisiTermin(termin);
                 model.addAttribute("rezervacijaTerminaPoruka",
                     "Termin je rezervisan.");
@@ -167,6 +176,53 @@ public class SobaController {
             else{
                 return "greskapage";
             }
+        }
+    	catch(Exception ex){
+            return "greskapage";
+    	}
+        return vratiSobaInfoStranicu(studioId, sobaId, model, false);
+    }
+
+    @RequestMapping(value = "/sobainfo/pronadjitermin.htm", method = RequestMethod.POST)
+    public String pronadjiTermineKorisnika(@RequestParam(value="studioId", required=true) Long studioId,
+        @RequestParam(value="sobaId", required=true) Long sobaId,
+        @ModelAttribute("korisnikAttribute") @Valid Korisnik korisnik,
+        BindingResult rezultat, Model model) {
+    	logger.debug("Zahtev za vracanje termina korisnika");
+        try {
+            if(!LogovaniKorisnik.daLiJeLogovan()){
+                return "greskapage";
+            }
+            model.addAttribute("studioId", studioId);
+            model.addAttribute("sobaAttribute", sobaId);
+            if(LogovaniKorisnik.daLiJeAdmin()){
+                model.addAttribute("terminiRacunAttribute",
+                terminService.vratiTerminePoSobiIKorisniku(sobaId,
+                    korisnik.getKorIme()));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("daLiJeLogovan", LogovaniKorisnik.daLiJeLogovan());
+        model.addAttribute("daLiJeKorisnik", LogovaniKorisnik.daLiJeKorisnik());
+        model.addAttribute("daLiJeAdmin", LogovaniKorisnik.daLiJeAdmin());
+        return vratiSobaInfoStranicu(studioId, sobaId, model, false);
+    }
+
+   @RequestMapping(value = "/sobainfo/izdavanjeracuna.htm", method = RequestMethod.GET)
+    public String izdajRacun(@RequestParam(value="studioId", required=true) Long studioId,
+        @RequestParam(value="sobaId", required=true) Long sobaId,
+        @RequestParam(value="terminId", required=true) Long terminId,
+        Model model) {
+    	logger.debug("Zahtev za izdavanje racuna");
+    	try{
+            terminService.izdajRacun(terminId);
+            model.addAttribute("studioId", studioId);
+            model.addAttribute("sobaId", sobaId);
+            model.addAttribute("terminId", terminId);
+            model.addAttribute("izdavanjeRacunaPoruka",
+                "Racun je izdat.");
         }
     	catch(Exception ex){
             return "greskapage";

@@ -9,14 +9,10 @@
     <div id="container">
         <%@ include file="/WEB-INF/headerpage.jsp"%>
         <div id="main">
-            <%-- <%@ include file="/WEB-INF/sidebarpage.jsp" %> --%>
             <div id="text">
-                <!--div id="content"-->
 
                     <h1>Pocetna:</h1>
 
-
-                <!--/div-->
             </div>
         </div>
         <%@ include file="/WEB-INF/footerpage.jsp"%>

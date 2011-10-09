@@ -65,6 +65,7 @@ public class StudioController {
     public String sacuvajStudio(@ModelAttribute("studioAttribute") @Valid Studio studio,
             BindingResult rezultat, Model model) {
         logger.debug("Zahtev za dodavanje studija");
+        model.addAttribute("daLiJeLogovan", LogovaniKorisnik.daLiJeLogovan());
         if(!LogovaniKorisnik.daLiJeAdmin()){
             return "greskapage";
         }
@@ -76,7 +77,7 @@ public class StudioController {
             model.addAttribute("studioAttribute", studio);
             model.addAttribute("dodavanjeStudijaPoruka", studio.getNaziv()+" je uspesno dodat.");
         }
-        model.addAttribute("daLiJeLogovan", LogovaniKorisnik.daLiJeLogovan());
+        
         return vratiDodajStudioStranicu(model);
     }
 
