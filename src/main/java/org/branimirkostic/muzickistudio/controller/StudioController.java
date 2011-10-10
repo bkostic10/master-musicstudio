@@ -120,10 +120,6 @@ public class StudioController {
             sobaService.obrisiSobu(studioId, sobaId);
             model.addAttribute("studioId", studioId);
             model.addAttribute("sobaId", sobaId);
-            //model.addAttribute("probe", studio.vratiSobeZaProbe());
-            //model.addAttribute("snimanje", studio.vratiSobeZaSnimanje());
-            //model.addAttribute("daLiJeAdmin", LogovaniKorisnik.daLiJeAdmin());
-            //model.addAttribute("daLiJeLogovan", LogovaniKorisnik.daLiJeLogovan());
             model.addAttribute("obrisanaSobaPoruka", soba.getNaziv()+" je uspesno obrisana.");
         } catch (Exception e) {
             e.printStackTrace();
@@ -145,10 +141,6 @@ public class StudioController {
             }
             studioService.obrisiStudio(studioId);
             model.addAttribute("studioId", studioId);
-            //model.addAttribute("probe", studio.vratiSobeZaProbe());
-            //model.addAttribute("snimanje", studio.vratiSobeZaSnimanje());
-            //model.addAttribute("daLiJeAdmin", LogovaniKorisnik.daLiJeAdmin());
-            //model.addAttribute("daLiJeLogovan", LogovaniKorisnik.daLiJeLogovan());
             model.addAttribute("obrisanStudioPoruka", studio.getNaziv()+" je uspesno obrisan.");
         } catch (Exception e) {
             e.printStackTrace();

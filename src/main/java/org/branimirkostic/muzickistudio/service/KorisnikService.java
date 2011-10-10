@@ -24,18 +24,6 @@ public class KorisnikService {
     @Resource(name="sessionFactory")
     private SessionFactory sessionFactory;
 
-    public Korisnik vratiKorisnikaPoId(Long id) {
-        Korisnik korisnik;
-        try {
-            logger.debug("Vracanje korisnika po id-u");
-            Session session = sessionFactory.getCurrentSession();
-            korisnik = (Korisnik)session.get(Korisnik.class, id);
-
-        } catch (HibernateException e) {
-            throw new HibernateException("Greska: "+e.getMessage());
-        }
-        return korisnik;
-    }
     public Korisnik vratiKorisnikaPoKorImenu(String korIme) {
         List<?> list = null;
         try {
@@ -62,20 +50,5 @@ public class KorisnikService {
         } catch (HibernateException e) {
             throw new HibernateException("Greska: "+e.getMessage());
         }
-    }
-
-    public Korisnik prijaviKorisnika(Korisnik korisnik){
-        List<?> list = null;
-        try {
-            Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Korisnik.class).
-            add(Restrictions.eq("korIme", korisnik.getKorIme())).
-            add(Restrictions.eq("lozinka", korisnik.getLozinka()));
-            list = criteria.list();
-            if(list == null || list.isEmpty())
-                return null;
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
-        return (Korisnik) list.get(0);
     }
 }

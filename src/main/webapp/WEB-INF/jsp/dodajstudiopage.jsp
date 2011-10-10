@@ -12,7 +12,7 @@
 
 
                 <h1>Dodaj studio:</h1>
-
+                <br/>
                 <c:url var="dodajStudioUrl" value="/site/studio/dodajstudio.htm" />
                 <c:url var="studiosUrl" value="/site/studio/studios.htm" />
                 <form:form id="dodajStudioForma" name="dodajStudioForma"

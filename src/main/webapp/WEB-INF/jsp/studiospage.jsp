@@ -13,7 +13,6 @@
 
                 <h1>Izaberi Studio:</h1>
                 <br />
-                <br />
                 <c:url var="dodajStudioUrl" value="/site/studio/dodajstudio.htm" />
 
                 <c:if test="${!empty studios}">

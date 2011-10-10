@@ -1,7 +1,5 @@
 package org.branimirkostic.muzickistudio.controller;
 
-import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
-import java.util.ArrayList;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
@@ -119,7 +117,6 @@ public class SobaController {
             e.printStackTrace();
         }
         List<String> datumi = Util.getDatum();
-        //List<Vreme> vremena = Util.getVreme();
         for(int i = 0; i < 7; i++){
             model.addAttribute("datum_"+i,datumi.get(i));
             for(int j = 0; j < 7; j++){

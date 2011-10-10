@@ -22,22 +22,6 @@ public class SobaService {
     @Resource(name="sessionFactory")
     private SessionFactory sessionFactory;
 
-    public List<Soba> vratiSobeStudija(Long id) {
-        Query upit;
-        Studio studio;
-        try {
-            logger.debug("Vracanje svih soba studija");
-            Session session = sessionFactory.getCurrentSession();
-            upit = session.createQuery("FROM Studio AS S " +
-                "LEFT JOIN FETCH S.Sobe WHERE S.ID = " + id);
-            studio = (Studio) upit.uniqueResult();
-
-        } catch (HibernateException e) {
-            throw new HibernateException("Greska: "+e.getMessage());
-        }
-        return  studio.getSobe();
-    }
-
     public Soba pronadjiSobuPoId(Long id) {
         Soba soba;
         try {
@@ -53,7 +37,6 @@ public class SobaService {
         try{
             logger.debug("Dodavanje sobe");
             Session session = sessionFactory.getCurrentSession();
-            //session.save(soba);
             Studio studio = (Studio) session.get(Studio.class, studioId);
             studio.getSobe().add(soba);
             session.save(studio);

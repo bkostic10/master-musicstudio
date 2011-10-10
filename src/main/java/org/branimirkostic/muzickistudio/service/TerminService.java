@@ -52,7 +52,6 @@ public class TerminService {
         return termini;
     }
 
-    @SuppressWarnings("unchecked")
     public String vratiStatusTermina(Long sobaId, String datum, int vreme) {
         Termin termin = null;
         String rezervisan = "";
@@ -87,21 +86,6 @@ public class TerminService {
         }
     }
 
-    public List<Termin> vratiSveTermineZaSobu(Long sobaId) {
-        List<Termin> termini = null;
-        try {
-            logger.debug("Vracanje termina korisnika");
-            Session session = sessionFactory.getCurrentSession();
-            Query upit = session.createQuery("FROM Termin AS T " +
-                "LEFT JOIN FETCH T.id LEFT JOIN FETCH T.soba AS S WHERE S.id = " + sobaId);
-            Korisnik korisnik = (Korisnik) upit.uniqueResult();
-            termini = korisnik.getTermini();
-        } catch (HibernateException e) {
-            throw new HibernateException("Greska: "+e.getMessage());
-        }
-        return termini;
-    }
-
     public void ponistiRezervaciju(Long id) {
         logger.debug("Ponistavanje termina");
         Session session = sessionFactory.getCurrentSession();
@@ -111,20 +95,4 @@ public class TerminService {
         session.delete(termin);
     }
 
-    public Boolean daLiJeKorisnikovTermin(Long sobaId, String korIme, Long terminId){
-        boolean ok = false;
-        List<Termin> termini = vratiTerminePoSobiIKorisniku(sobaId, korIme);
-        if(termini == null || termini.size() == 0){
-            return ok;
-        }
-        else{
-            for(Termin termin : termini){
-                if(termin.getId().getId().equals(terminId)){
-                    ok = true;
-                    break;
-                }
-            }
-        }
-        return ok;
-    }
 }

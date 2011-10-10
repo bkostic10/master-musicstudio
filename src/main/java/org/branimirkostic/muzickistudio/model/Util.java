@@ -58,17 +58,5 @@ public class Util {
         }
         return dates;
     }
-
-    public static List<Vreme> getVreme(){
-        List<Vreme> v = new ArrayList<Vreme>();
-        v.add(Vreme._10h_12h);
-        v.add(Vreme._12h_14h);
-        v.add(Vreme._14h_16h);
-        v.add(Vreme._16h_18h);
-        v.add(Vreme._18h_20h);
-        v.add(Vreme._20h_22h);
-        v.add(Vreme._22h_24h);
-        return v;
-    }
 	
 }

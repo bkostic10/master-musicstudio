@@ -13,7 +13,6 @@
 
                 <h1>Aktor info:</h1>
                 <br />
-                <br />
                 <div>
                     Ime:
                     <c:out value="${korisnikAttribute.ime}" />

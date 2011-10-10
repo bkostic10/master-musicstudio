@@ -13,14 +13,13 @@
 
 
                 <h1>Registracija korisnika:</h1>
-
+                <br/>
                 <c:url var="pocetnaUrl" value="/site/main/pocetna.htm" />
                 <c:url var="registracijaUrl" value="/site/korisnik/registracija.htm" />
                 <form:form id="registracijaForma" name="registracijaForma"
                     modelAttribute="korisnikAttribute" method="POST"
                     action="${registracijaUrl}">
-                    <div>${registracija2Poruka}</div>
-                    <br />
+                    <div id="errors">${registracija2Poruka}</div>
                     <div>
                         Ime: <br />
                         <form:input name="ime" path="ime" />
