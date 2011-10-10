@@ -52,6 +52,27 @@ public class TerminService {
         return termini;
     }
 
+    @SuppressWarnings("unchecked")
+    public String vratiStatusTermina(Long sobaId, String datum, int vreme) {
+        Termin termin = null;
+        String rezervisan = "";
+        try {
+            logger.debug("Vracanje termina korisnika za sobu");
+            Session session = sessionFactory.getCurrentSession();
+            Query upit = session.createQuery("FROM Termin AS T " +
+                "LEFT JOIN FETCH T.id LEFT JOIN FETCH T.soba AS S " +
+                "WHERE S.id = " + sobaId + " AND T.datum = '"+datum+"' AND T.satnica = "+vreme);
+            termin = (Termin) upit.uniqueResult();
+            if(termin == null)
+                rezervisan = "O";
+            else
+                rezervisan = "X";
+        } catch (HibernateException e) {
+            throw new HibernateException("Greska: "+e.getMessage());
+        }
+        return rezervisan;
+    }
+
     public void izdajRacun(Long id) {
         try {
             logger.debug("Izdavanje racuna");

@@ -1,5 +1,7 @@
 package org.branimirkostic.muzickistudio.controller;
 
+import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
+import java.util.ArrayList;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import  java.util.List;
 
 @Controller
 @RequestMapping("/soba")
@@ -114,6 +117,16 @@ public class SobaController {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        List<String> datumi = Util.getDatum();
+        //List<Vreme> vremena = Util.getVreme();
+        for(int i = 0; i < 7; i++){
+            model.addAttribute("datum_"+i,datumi.get(i));
+            for(int j = 0; j < 7; j++){
+                model.addAttribute("termin_"+i+"_"+j+"", terminService.vratiStatusTermina(sobaId,
+                        datumi.get(i), j));
+            }
+
         }
         model.addAttribute("daLiJeLogovan", LogovaniKorisnik.daLiJeLogovan());
         model.addAttribute("daLiJeKorisnik", LogovaniKorisnik.daLiJeKorisnik());

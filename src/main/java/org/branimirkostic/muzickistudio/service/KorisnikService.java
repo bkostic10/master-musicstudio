@@ -56,6 +56,7 @@ public class KorisnikService {
             PasswordEncoder encoder = new Md5PasswordEncoder();
             String lozinka = encoder.encodePassword(korisnik.getLozinka(), null);
             korisnik.setLozinka(lozinka);
+            korisnik.setLozinka2(lozinka);
             korisnik.setPrivilegija(2);
             session.save(korisnik);
         } catch (HibernateException e) {
