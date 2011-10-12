@@ -60,18 +60,6 @@ public class KorisnikController {
         model.addAttribute("daLiJeLogovan", LogovaniKorisnik.daLiJeLogovan());
         return vratiRegistracijaStranicu(model);
     }
-
-    @RequestMapping(value = "/prijava.htm", method = RequestMethod.GET)
-    public String vratiPrijavaStranicu(Model model) {
-        logger.debug("Zahtev za prikaz prijava stranice");
-        if(LogovaniKorisnik.daLiJeLogovan()){
-            return "greskapage";
-        }
-        Korisnik korisnik = new Korisnik();
-        model.addAttribute("korisnikAttribute", korisnik);
-        model.addAttribute("daLiJeLogovan", LogovaniKorisnik.daLiJeLogovan());
-        return "prijavapage";
-    }
     
     @RequestMapping(value = "/aktorinfo.htm", method = RequestMethod.GET)
     public String vratiAktorInfoStranicu(Model model) {

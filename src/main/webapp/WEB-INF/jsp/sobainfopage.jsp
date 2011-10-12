@@ -159,7 +159,6 @@
                 <table>
                     <thead>
                         <tr>
-                            <th width="150">Id</th>
                             <th width="150">Datum</th>
                             <th width="150">Vreme</th>
                             <th width="150">Ponisti</th>
@@ -170,8 +169,6 @@
                             <c:url var="ponistiUrl"
                                 value="/site/soba/sobainfo/ponistitermin.htm?studioId=${studioId}&sobaId=${sobaAttribute.id}&terminId=${termin.id.id}" />
                             <tr>
-                                <td><c:out value="${termin.id.id}" />
-                                </td>
                                 <td><c:out value="${termin.datum}" />
                                 </td>
                                 <td><c:out value="${termin.satnica}" />
@@ -218,7 +215,6 @@
                     <table>
                         <thead>
                             <tr>
-                                <th width="150">Id</th>
                                 <th width="150">Datum</th>
                                 <th width="150">Vreme</th>
                                 <th width="150">Izdaj racun</th>
@@ -229,8 +225,6 @@
                                 <c:url var="izdajRacunUrl"
                                     value="/site/soba/sobainfo/izdavanjeracuna.htm?studioId=${studioId}&sobaId=${sobaAttribute.id}&terminId=${termin.id.id}" />
                                 <tr>
-                                    <td><c:out value="${termin.id.id}" />
-                                    </td>
                                     <td><c:out value="${termin.datum}" />
                                     </td>
                                     <td><c:out value="${termin.satnica}" />
